@@ -4,13 +4,14 @@ import { ListItem } from './ListItem.js';
 
 interface QuadrantProps {
   label: string;
+  icon: string;
   items: ContentItem[];
   accentColor: string;
   onItemClick: (item: ContentItem) => void;
   onSave: (item: ContentItem) => void;
 }
 
-export function Quadrant({ label, items, accentColor, onItemClick, onSave }: QuadrantProps) {
+export function Quadrant({ label, icon, items, accentColor, onItemClick, onSave }: QuadrantProps) {
   const [featured, ...rest] = items;
 
   return (
@@ -20,6 +21,7 @@ export function Quadrant({ label, items, accentColor, onItemClick, onSave }: Qua
     >
       {/* Quadrant header */}
       <div className="quadrant-header">
+        <span className="quadrant-icon">{icon}</span>
         <span className="quadrant-label">{label}</span>
         {items.length > 0 && (
           <span className="quadrant-count">{items.length}</span>

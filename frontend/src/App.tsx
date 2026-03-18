@@ -179,41 +179,10 @@ export default function App() {
       />
 
       <div className="app-grid">
-        {/* Q1: AI News & Tools */}
-        <Quadrant
-          label="AI News & Tools"
-          items={q1Items}
-          accentColor={Q1_COLOR}
-          onItemClick={handleItemClick}
-          onSave={handleSave}
-        />
-
-        {/* Q2: Articles & Analysis */}
-        <Quadrant
-          label="Articles & Analysis"
-          items={q2Items}
-          accentColor={Q2_COLOR}
-          onItemClick={handleItemClick}
-          onSave={handleSave}
-        />
-
-        {/* Q3: Podcasts */}
-        <Quadrant
-          label="Podcasts"
-          items={q3Items}
-          accentColor={Q3_COLOR}
-          onItemClick={handleItemClick}
-          onSave={handleSave}
-        />
-
-        {/* Q4: YouTube */}
-        <Quadrant
-          label="YouTube"
-          items={q4Items}
-          accentColor={Q4_COLOR}
-          onItemClick={handleItemClick}
-          onSave={handleSave}
-        />
+        <Quadrant label="AI News & Tools"      icon="⚡" items={q1Items} accentColor={Q1_COLOR} onItemClick={handleItemClick} onSave={handleSave} />
+        <Quadrant label="Articles & Analysis"  icon="✦" items={q2Items} accentColor={Q2_COLOR} onItemClick={handleItemClick} onSave={handleSave} />
+        <Quadrant label="Podcasts"             icon="◉" items={q3Items} accentColor={Q3_COLOR} onItemClick={handleItemClick} onSave={handleSave} />
+        <Quadrant label="YouTube"              icon="▶" items={q4Items} accentColor={Q4_COLOR} onItemClick={handleItemClick} onSave={handleSave} />
       </div>
 
       {/* Detail modal */}

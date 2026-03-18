@@ -17,9 +17,13 @@ function timeAgo(iso: string): string {
   return `${Math.floor(hours / 24)}d ago`;
 }
 
-function getFaviconUrl(source: string): string {
-  const cleaned = source.toLowerCase().replace(/\s+/g, '');
-  return `https://www.google.com/s2/favicons?domain=${cleaned}.com&sz=16`;
+function getFaviconUrl(url: string): string {
+  try {
+    const domain = new URL(url).hostname;
+    return `https://www.google.com/s2/favicons?domain=${domain}&sz=16`;
+  } catch {
+    return '';
+  }
 }
 
 export function FeaturedCard({ item, accentColor, onClick }: FeaturedCardProps) {
@@ -63,7 +67,7 @@ export function FeaturedCard({ item, accentColor, onClick }: FeaturedCardProps) 
           {!faviconError && (
             <img
               className="featured-card-favicon"
-              src={getFaviconUrl(item.source)}
+              src={getFaviconUrl(item.url)}
               alt=""
               onError={() => setFaviconError(true)}
             />
