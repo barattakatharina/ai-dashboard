@@ -1,35 +1,36 @@
-/* ── Fonts: editorial serif for headlines, Inter for UI ── */
+/* ── Fonts ── */
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
 
 /* ── Design tokens ── */
 :root {
-  /* Editorial light palette */
-  --bg:          #F5F3EE;
-  --bg-panel:    #FFFFFF;
-  --bg-rule:     #DDD9D0;   /* gap / column rule color */
-  --bg-hover:    #F7F5F1;
+  /* Dark palette */
+  --bg:          #0D0D14;
+  --bg-panel:    #13131E;
+  --bg-card:     #1A1A28;
+  --bg-hover:    #1F1F30;
 
-  /* Borders & rules */
-  --rule:        #DDD9D0;
-  --rule-light:  #EEECE7;
+  /* Borders */
+  --rule:        rgba(255,255,255,0.08);
+  --rule-light:  rgba(255,255,255,0.04);
 
   /* Text */
-  --text-primary:   #141210;
-  --text-secondary: #3C3A35;
-  --text-muted:     #8A8780;
+  --text-primary:   #F0EEF8;
+  --text-secondary: #B8B5CC;
+  --text-muted:     #6B688A;
 
-  /* Per-section editorial accent colors */
-  --q1: #C8102E;   /* newspaper red    — AI News    */
-  --q2: #0D52A0;   /* editorial blue   — Articles   */
-  --q3: #1A5C38;   /* editorial green  — Podcasts   */
-  --q4: #C45800;   /* editorial orange — Videos     */
+  /* Accent colors per quadrant */
+  --q1: #7C6FFF;   /* purple  — AI News & Tools */
+  --q2: #00C8F8;   /* cyan    — Articles        */
+  --q3: #FF6B9D;   /* pink    — Podcasts        */
+  --q4: #FF8F3E;   /* orange  — YouTube         */
 
   /* Typography */
-  --font-headline: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-headline: 'Playfair Display', Georgia, serif;
   --font-ui:       'Inter', system-ui, -apple-system, sans-serif;
 
-  --radius-sm: 4px;
-  --t: 0.12s;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --t:    0.14s;
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -58,79 +59,78 @@ button { cursor: pointer; border: none; background: none; color: inherit; font: 
 /* ── Scrollbar ── */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 2px; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
 
 /* ────────────────────────────────
-   HEADER — newspaper masthead
+   HEADER
 ──────────────────────────────── */
 .header {
   position: relative;
   z-index: 100;
-  height: 60px;
+  height: 58px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
   padding: 0 24px;
-  background: #fff;
-  border-bottom: 3px solid var(--text-primary);
+  background: rgba(13, 13, 20, 0.95);
+  border-bottom: 1px solid var(--rule);
+  backdrop-filter: blur(12px);
 }
 
 .header-logo {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   flex-shrink: 0;
 }
 
-/* In newspaper mode the SVG logo mark sits cleanly without glow */
 .header-logo svg { filter: none; }
 
 .header-wordmark {
-  font-family: var(--font-headline);
-  font-size: 22px;
+  font-family: var(--font-ui);
+  font-size: 18px;
   font-weight: 700;
-  letter-spacing: -0.3px;
+  letter-spacing: -0.4px;
   color: var(--text-primary);
   line-height: 1;
 }
 
-/* "AI" keeps a single accent color — clean, no gradient */
 .header-wordmark-ai {
   font-weight: 800;
-  color: var(--q1);
-  -webkit-text-fill-color: var(--q1);
-  background: none;
-  background-clip: unset;
-  -webkit-background-clip: unset;
+  background: linear-gradient(90deg, var(--q1), var(--q2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .header-meta {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 400;
   color: var(--text-muted);
   background: none;
   border: none;
   padding: 0;
-  font-style: italic;
 }
 
 .header-live-dot {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  background: var(--q1);
+  background: #4ADE80;
   flex-shrink: 0;
+  box-shadow: 0 0 6px #4ADE80;
   animation: livePulse 3s ease-in-out infinite;
 }
 
 @keyframes livePulse {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.4; }
+  0%, 100% { opacity: 1; box-shadow: 0 0 6px #4ADE80; }
+  50%       { opacity: 0.5; box-shadow: 0 0 2px #4ADE80; }
 }
 
 .header-actions {
@@ -150,39 +150,40 @@ button { cursor: pointer; border: none; background: none; color: inherit; font: 
   font-size: 12.5px;
   font-weight: 600;
   font-family: var(--font-ui);
-  letter-spacing: 0.2px;
+  letter-spacing: 0.1px;
   transition: all var(--t) var(--ease);
 }
 
 .btn-ghost {
   color: var(--text-secondary);
-  background: transparent;
+  background: rgba(255,255,255,0.04);
   border: 1px solid var(--rule);
 }
-.btn-ghost:hover { background: var(--bg-hover); border-color: var(--text-muted); color: var(--text-primary); }
-.btn-ghost:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-ghost:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); color: var(--text-primary); }
+.btn-ghost:disabled { opacity: 0.35; cursor: not-allowed; }
 
 .btn-primary {
-  background: var(--text-primary);
+  background: linear-gradient(135deg, var(--q1), #6355E8);
   color: #fff;
   font-weight: 600;
   border: none;
+  box-shadow: 0 0 16px rgba(124,111,255,0.35);
 }
-.btn-primary:hover { background: var(--text-secondary); }
+.btn-primary:hover { box-shadow: 0 0 24px rgba(124,111,255,0.5); opacity: 0.92; }
 
 .btn-outline {
   background: transparent;
   border: 1px solid var(--rule);
   color: var(--text-secondary);
 }
-.btn-outline:hover { border-color: var(--text-muted); color: var(--text-primary); }
+.btn-outline:hover { border-color: rgba(255,255,255,0.2); color: var(--text-primary); }
 
 .btn-saved {
-  background: transparent;
+  background: rgba(255,255,255,0.04);
   border: 1px solid var(--rule);
   color: var(--text-secondary);
 }
-.btn-saved:hover { border-color: var(--q1); color: var(--q1); }
+.btn-saved:hover { border-color: var(--q1); color: var(--q1); background: rgba(124,111,255,0.08); }
 
 .badge-count {
   background: var(--q1);
@@ -198,7 +199,7 @@ button { cursor: pointer; border: none; background: none; color: inherit; font: 
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* ────────────────────────────────
-   APP GRID — 4 newspaper sections
+   APP GRID
 ──────────────────────────────── */
 .app-grid {
   flex: 1;
@@ -206,13 +207,13 @@ button { cursor: pointer; border: none; background: none; color: inherit; font: 
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
   gap: 1px;
-  background: var(--bg-rule);   /* the 1px column rules */
+  background: rgba(255,255,255,0.05);
   overflow: hidden;
   min-height: 0;
 }
 
 /* ────────────────────────────────
-   QUADRANT — newspaper section
+   QUADRANT
 ──────────────────────────────── */
 .quadrant {
   background: var(--bg-panel);
@@ -224,40 +225,31 @@ button { cursor: pointer; border: none; background: none; color: inherit; font: 
 
 /* ── Section header ── */
 .quadrant-header {
-  height: 40px;
+  height: 38px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 0 16px;
-  background: var(--bg-panel);
+  padding: 0 14px;
+  background: rgba(255,255,255,0.02);
   border-bottom: 1px solid var(--rule);
-
-  /* The section color lives here as a left border */
-  border-left: 4px solid var(--q-accent);
+  border-left: 3px solid var(--q-accent);
   position: relative;
 }
 
-/* No pseudo-element glow — clean flat border */
-.quadrant-header::before,
-.quadrant-header::after { display: none; }
-
 .quadrant-icon {
-  font-size: 12px;
-  line-height: 1;
+  font-size: 11px;
   flex-shrink: 0;
-  filter: none;
-  opacity: 0.7;
+  opacity: 0.6;
 }
 
 .quadrant-label {
   flex: 1;
   font-family: var(--font-ui);
-  font-size: 10px;
+  font-size: 9.5px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 1.8px;
-  /* Section label uses the accent color */
+  letter-spacing: 2px;
   color: var(--q-accent);
 }
 
@@ -265,11 +257,10 @@ button { cursor: pointer; border: none; background: none; color: inherit; font: 
   font-size: 10px;
   font-weight: 600;
   color: var(--text-muted);
-  background: var(--bg);
+  background: rgba(255,255,255,0.05);
   border: 1px solid var(--rule);
-  border-radius: 2px;
+  border-radius: 4px;
   padding: 1px 6px;
-  font-family: var(--font-ui);
 }
 
 .quadrant-scroll {
@@ -283,7 +274,6 @@ button { cursor: pointer; border: none; background: none; color: inherit; font: 
    FEATURED CARD — lead story
 ──────────────────────────────── */
 .featured-card {
-  /* No floating card — full-bleed editorial style */
   margin: 0;
   border-radius: 0;
   background: transparent;
@@ -296,44 +286,38 @@ button { cursor: pointer; border: none; background: none; color: inherit; font: 
 
 .featured-card:hover {
   background: var(--bg-hover);
-  transform: none;
-  box-shadow: none;
-  border-color: var(--rule);
 }
 
 .featured-card-image {
   width: 100%;
-  height: 148px;
+  height: 144px;
   object-fit: cover;
   display: block;
+  /* Soft fade at the bottom so body text reads over it */
+  -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
 }
 
 .featured-card-image-placeholder {
-  height: 80px;
+  height: 72px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--bg);
+  background: linear-gradient(135deg, rgba(255,255,255,0.03), transparent);
   border-bottom: 1px solid var(--rule-light);
 }
 
-/* Simple icon placeholder — clean editorial */
-.featured-card-image-placeholder svg {
-  opacity: 0.15;
-}
+.featured-card-image-placeholder svg { opacity: 0.12; }
 
 .featured-card-body {
-  padding: 12px 16px 14px;
-  border-left: none;
+  padding: 10px 14px 14px;
 }
-
-.featured-card:hover .featured-card-body { border-left-color: transparent; }
 
 .featured-card-source-row {
   display: flex;
   align-items: center;
   gap: 5px;
-  margin-bottom: 6px;
+  margin-bottom: 7px;
 }
 
 .featured-card-favicon {
@@ -341,32 +325,34 @@ button { cursor: pointer; border: none; background: none; color: inherit; font: 
   height: 12px;
   border-radius: 2px;
   flex-shrink: 0;
-  opacity: 0.75;
+  opacity: 0.6;
 }
 
-/* Source shown in accent color — like the Economist's section labels */
 .featured-card-source {
-  font-size: 10.5px;
+  font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
+  letter-spacing: 1px;
   color: var(--q-accent);
   font-family: var(--font-ui);
 }
 
-.featured-card-source-sep { display: none; }  /* cleaner without the dot */
+.featured-card-source-sep {
+  color: var(--text-muted);
+  opacity: 0.4;
+  font-size: 10px;
+}
 
 .featured-card-time {
-  font-size: 10.5px;
+  font-size: 10px;
   color: var(--text-muted);
-  font-style: italic;
   font-family: var(--font-ui);
 }
 
-/* HEADLINE — the star of the show */
+/* Big serif headline — the key structural change */
 .featured-card-title {
   font-family: var(--font-headline);
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 700;
   line-height: 1.3;
   letter-spacing: -0.2px;
@@ -384,9 +370,9 @@ button { cursor: pointer; border: none; background: none; color: inherit; font: 
 }
 
 .featured-card-desc {
-  font-size: 13px;
+  font-size: 12.5px;
   font-family: var(--font-ui);
-  color: var(--text-secondary);
+  color: var(--text-muted);
   line-height: 1.55;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -395,23 +381,20 @@ button { cursor: pointer; border: none; background: none; color: inherit; font: 
 }
 
 /* ────────────────────────────────
-   LIST ITEMS — editorial digest
+   LIST ITEMS
 ──────────────────────────────── */
 .list-item {
   display: flex;
   align-items: center;
   gap: 10px;
-  min-height: 40px;
+  min-height: 38px;
   height: auto;
-  padding: 9px 16px 9px 12px;
+  padding: 8px 14px 8px 11px;
   cursor: pointer;
-
-  /* No left accent border in newspaper mode — just a bottom rule */
   border-left: 2px solid transparent;
   border-bottom: 1px solid var(--rule-light);
-
   background: transparent;
-  transition: background var(--t) var(--ease);
+  transition: background var(--t) var(--ease), border-color var(--t) var(--ease);
 }
 
 .list-item:hover {
@@ -421,31 +404,25 @@ button { cursor: pointer; border: none; background: none; color: inherit; font: 
 
 .list-item:last-child { border-bottom: none; }
 
-/* Smaller, subtler dot */
 .list-item-dot {
-  width: 4px;
-  height: 4px;
+  width: 3px;
+  height: 3px;
   border-radius: 50%;
   background: var(--q-accent);
   flex-shrink: 0;
-  opacity: 0.4;
+  opacity: 0.35;
   transition: opacity var(--t) var(--ease);
 }
 
-.list-item:hover .list-item-dot {
-  opacity: 0.9;
-  transform: none;
-}
+.list-item:hover .list-item-dot { opacity: 0.9; }
 
-/* List headline — compact sans-serif (not serif, for readability at small size) */
 .list-item-title {
   flex: 1;
   font-family: var(--font-ui);
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: -0.05px;
+  font-size: 12.5px;
+  font-weight: 500;
   line-height: 1.35;
-  color: var(--text-primary);
+  color: var(--text-secondary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -453,17 +430,16 @@ button { cursor: pointer; border: none; background: none; color: inherit; font: 
   transition: color var(--t) var(--ease);
 }
 
-.list-item:hover .list-item-title { color: var(--q-accent); }
+.list-item:hover .list-item-title { color: var(--text-primary); }
 
 .list-item-meta {
   display: flex;
   align-items: center;
   gap: 4px;
   flex-shrink: 0;
-  font-size: 11px;
+  font-size: 10.5px;
   color: var(--text-muted);
   white-space: nowrap;
-  font-style: italic;
 }
 
 .list-item-source {
@@ -471,18 +447,17 @@ button { cursor: pointer; border: none; background: none; color: inherit; font: 
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-style: normal;
   font-weight: 500;
 }
 
-.list-item-sep { opacity: 0.4; }
+.list-item-sep { opacity: 0.3; }
 
 .list-item-save {
   opacity: 0;
   padding: 2px 5px;
-  border-radius: 2px;
+  border-radius: 4px;
   color: var(--text-muted);
-  font-size: 12px;
+  font-size: 11px;
   line-height: 1;
   flex-shrink: 0;
   transition: opacity var(--t) var(--ease), color var(--t) var(--ease);
@@ -490,7 +465,7 @@ button { cursor: pointer; border: none; background: none; color: inherit; font: 
 
 .list-item:hover .list-item-save { opacity: 1; }
 .list-item-save.saved             { opacity: 1; color: var(--q1); }
-.list-item-save:hover             { color: var(--q1); background: rgba(200, 16, 46, 0.08); }
+.list-item-save:hover             { color: var(--q1); }
 
 /* ────────────────────────────────
    DETAIL MODAL
@@ -498,8 +473,8 @@ button { cursor: pointer; border: none; background: none; color: inherit; font: 
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(20, 18, 16, 0.65);
-  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
   z-index: 200;
   display: flex;
   align-items: center;
@@ -511,10 +486,10 @@ button { cursor: pointer; border: none; background: none; color: inherit; font: 
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
 .modal {
-  background: #fff;
-  border: 1px solid var(--rule);
-  border-top: 4px solid var(--text-primary);
-  border-radius: 0;
+  background: var(--bg-panel);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-top: 3px solid var(--q-accent, var(--q1));
+  border-radius: var(--radius-md);
   max-width: 680px;
   width: 100%;
   max-height: 88vh;
@@ -522,28 +497,33 @@ button { cursor: pointer; border: none; background: none; color: inherit; font: 
   flex-direction: column;
   overflow: hidden;
   animation: modalIn 0.18s var(--ease);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2), 0 4px 16px rgba(0,0,0,0.1);
+  box-shadow: 0 24px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05);
 }
 
 @keyframes modalIn {
-  from { opacity: 0; transform: translateY(14px); }
-  to   { opacity: 1; transform: translateY(0);    }
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .modal-image-wrapper { position: relative; flex-shrink: 0; }
 
 .modal-image {
   width: 100%;
-  height: 240px;
+  height: 220px;
   object-fit: cover;
   display: block;
 }
 
-/* No gradient scrim — editorial images stand on their own */
-.modal-image-wrapper::after { display: none; }
+.modal-image-wrapper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 50%, var(--bg-panel));
+  pointer-events: none;
+}
 
 .modal-body {
-  padding: 28px 32px 32px;
+  padding: 24px 28px 28px;
   overflow-y: auto;
   flex: 1;
 }
@@ -551,43 +531,44 @@ button { cursor: pointer; border: none; background: none; color: inherit; font: 
 .modal-badges {
   display: flex;
   gap: 8px;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
   flex-wrap: wrap;
 }
 
 .badge {
-  font-size: 10px;
+  font-size: 9.5px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  padding: 2px 7px;
-  border-radius: 2px;
+  letter-spacing: 1.2px;
+  padding: 3px 8px;
+  border-radius: 4px;
   font-family: var(--font-ui);
   border: 1px solid transparent;
 }
 
-.badge-type            { background: rgba(200, 16, 46, 0.08); color: var(--q1); border-color: rgba(200,16,46,0.2); }
-.badge-type.video      { background: rgba(196, 88, 0, 0.08);  color: var(--q4); border-color: rgba(196,88,0,0.2); }
-.badge-type.podcast    { background: rgba(26, 92, 56, 0.08);  color: var(--q3); border-color: rgba(26,92,56,0.2); }
-.badge-type.newsletter { background: rgba(13, 82,160, 0.08);  color: var(--q2); border-color: rgba(13,82,160,0.2); }
-.badge-type.tool       { background: rgba(200, 16, 46, 0.08); color: var(--q1); border-color: rgba(200,16,46,0.2); }
+.badge-type            { background: rgba(124,111,255,0.12); color: var(--q1); border-color: rgba(124,111,255,0.25); }
+.badge-type.video      { background: rgba(255,143,62,0.12);  color: var(--q4); border-color: rgba(255,143,62,0.25);  }
+.badge-type.podcast    { background: rgba(255,107,157,0.12); color: var(--q3); border-color: rgba(255,107,157,0.25); }
+.badge-type.newsletter { background: rgba(0,200,248,0.12);   color: var(--q2); border-color: rgba(0,200,248,0.25);   }
+.badge-type.tool       { background: rgba(124,111,255,0.12); color: var(--q1); border-color: rgba(124,111,255,0.25); }
 
 .card-hn-score {
   font-size: 11px;
   font-weight: 600;
   color: var(--q4);
-  padding: 2px 7px;
-  background: rgba(196, 88, 0, 0.08);
-  border: 1px solid rgba(196, 88, 0, 0.2);
-  border-radius: 2px;
+  padding: 3px 8px;
+  background: rgba(255,143,62,0.12);
+  border: 1px solid rgba(255,143,62,0.25);
+  border-radius: 4px;
 }
 
+/* Serif headline in the modal */
 .modal-title {
   font-family: var(--font-headline);
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 700;
   line-height: 1.25;
-  letter-spacing: -0.4px;
+  letter-spacing: -0.3px;
   color: var(--text-primary);
   margin-bottom: 12px;
 }
@@ -596,38 +577,37 @@ button { cursor: pointer; border: none; background: none; color: inherit; font: 
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 12.5px;
+  font-size: 12px;
   font-family: var(--font-ui);
-  font-style: italic;
   color: var(--text-muted);
-  margin-bottom: 20px;
-  padding-bottom: 20px;
+  margin-bottom: 18px;
+  padding-bottom: 18px;
   border-bottom: 1px solid var(--rule);
   flex-wrap: wrap;
 }
 
-.modal-meta-sep { opacity: 0.4; }
+.modal-meta-sep { opacity: 0.3; }
 
 .modal-description {
-  font-size: 15px;
+  font-size: 14.5px;
   font-family: var(--font-ui);
   line-height: 1.75;
   color: var(--text-secondary);
-  margin-bottom: 28px;
+  margin-bottom: 24px;
 }
 
 .modal-footer { display: flex; gap: 10px; flex-wrap: wrap; }
 
 .modal-close {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: 10px;
+  right: 10px;
   width: 28px;
   height: 28px;
-  border-radius: 2px;
-  background: rgba(0,0,0,0.06);
-  border: 1px solid var(--rule);
-  color: var(--text-secondary);
+  border-radius: var(--radius-sm);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--text-muted);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -635,7 +615,7 @@ button { cursor: pointer; border: none; background: none; color: inherit; font: 
   transition: all var(--t) var(--ease);
   z-index: 201;
 }
-.modal-close:hover { background: var(--text-primary); color: #fff; border-color: var(--text-primary); }
+.modal-close:hover { background: rgba(255,255,255,0.12); color: var(--text-primary); }
 
 /* ────────────────────────────────
    SAVED PANEL
@@ -644,14 +624,14 @@ button { cursor: pointer; border: none; background: none; color: inherit; font: 
   position: fixed;
   right: 0; top: 0; bottom: 0;
   width: 360px;
-  background: #fff;
+  background: var(--bg-panel);
   border-left: 1px solid var(--rule);
   z-index: 150;
   display: flex;
   flex-direction: column;
   transform: translateX(100%);
   transition: transform 0.22s var(--ease);
-  box-shadow: -8px 0 32px rgba(0, 0, 0, 0.12);
+  box-shadow: -16px 0 48px rgba(0,0,0,0.5);
 }
 
 .saved-panel.open { transform: translateX(0); }
@@ -660,8 +640,8 @@ button { cursor: pointer; border: none; background: none; color: inherit; font: 
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 20px;
-  border-bottom: 2px solid var(--text-primary);
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--rule);
   flex-shrink: 0;
 }
 
@@ -675,7 +655,6 @@ button { cursor: pointer; border: none; background: none; color: inherit; font: 
 .saved-panel-list {
   overflow-y: auto;
   flex: 1;
-  padding: 0;
   display: flex;
   flex-direction: column;
 }
@@ -683,34 +662,33 @@ button { cursor: pointer; border: none; background: none; color: inherit; font: 
 .saved-card {
   display: flex;
   gap: 12px;
-  padding: 12px 16px;
-  background: #fff;
+  padding: 12px 14px;
+  background: transparent;
   border-bottom: 1px solid var(--rule-light);
   cursor: pointer;
   transition: background var(--t) var(--ease);
-  border-left: 3px solid transparent;
+  border-left: 2px solid transparent;
 }
 
 .saved-card:hover {
   background: var(--bg-hover);
   border-left-color: var(--q1);
-  transform: none;
 }
 
 .saved-card-img {
-  width: 52px;
-  height: 52px;
-  border-radius: 2px;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
   object-fit: cover;
   flex-shrink: 0;
-  background: var(--bg);
+  background: var(--bg-card);
 }
 
 .saved-card-img-placeholder {
-  width: 52px;
-  height: 52px;
-  border-radius: 2px;
-  background: var(--bg);
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
   border: 1px solid var(--rule);
   display: flex;
   align-items: center;
@@ -730,8 +708,8 @@ button { cursor: pointer; border: none; background: none; color: inherit; font: 
 
 .saved-card-title {
   font-family: var(--font-ui);
-  font-size: 12.5px;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 500;
   line-height: 1.4;
   color: var(--text-primary);
   display: -webkit-box;
@@ -741,20 +719,19 @@ button { cursor: pointer; border: none; background: none; color: inherit; font: 
 }
 
 .saved-card-meta {
-  font-size: 11px;
+  font-size: 10.5px;
   color: var(--text-muted);
-  font-style: italic;
 }
 
 .saved-card-remove {
   color: var(--text-muted);
   padding: 3px;
-  transition: all var(--t) var(--ease);
+  transition: color var(--t) var(--ease);
   align-self: flex-start;
   flex-shrink: 0;
   font-size: 12px;
 }
-.saved-card-remove:hover { color: var(--q1); }
+.saved-card-remove:hover { color: #FF6B6B; }
 
 /* ────────────────────────────────
    STATES
@@ -768,11 +745,10 @@ button { cursor: pointer; border: none; background: none; color: inherit; font: 
   color: var(--text-muted);
   text-align: center;
   gap: 10px;
-  border-bottom: 1px solid var(--rule);
 }
-.empty-state-icon  { font-size: 32px; opacity: 0.3; }
-.empty-state-title { font-family: var(--font-headline); font-size: 15px; font-weight: 700; color: var(--text-secondary); }
-.empty-state-text  { font-size: 12.5px; line-height: 1.55; max-width: 220px; font-style: italic; }
+.empty-state-icon  { font-size: 28px; opacity: 0.25; }
+.empty-state-title { font-family: var(--font-ui); font-size: 13px; font-weight: 600; color: var(--text-muted); }
+.empty-state-text  { font-size: 12px; line-height: 1.55; max-width: 200px; }
 
 .loading-wrapper {
   display: flex;
@@ -786,15 +762,15 @@ button { cursor: pointer; border: none; background: none; color: inherit; font: 
 }
 
 .loading-spinner {
-  width: 32px;
-  height: 32px;
-  border: 2px solid var(--rule);
+  width: 28px;
+  height: 28px;
+  border: 2px solid rgba(255,255,255,0.07);
   border-top-color: var(--q1);
   border-radius: 50%;
   animation: spin 0.75s linear infinite;
 }
 
-.loading-text { font-size: 13px; font-style: italic; color: var(--text-muted); }
+.loading-text { font-size: 13px; color: var(--text-muted); }
 
 .error-state {
   display: flex;
@@ -807,15 +783,15 @@ button { cursor: pointer; border: none; background: none; color: inherit; font: 
   padding: 24px;
   background: var(--bg);
 }
-.error-state-icon  { font-size: 36px; }
-.error-state-title { font-family: var(--font-headline); font-size: 20px; font-weight: 700; color: var(--text-primary); }
-.error-state-text  { font-size: 13.5px; color: var(--text-muted); max-width: 360px; line-height: 1.6; font-style: italic; }
+.error-state-icon  { font-size: 32px; opacity: 0.5; }
+.error-state-title { font-size: 18px; font-weight: 600; color: var(--text-primary); }
+.error-state-text  { font-size: 13px; color: var(--text-muted); max-width: 360px; line-height: 1.6; }
 
 .panel-backdrop {
   position: fixed;
   inset: 0;
   z-index: 149;
-  background: rgba(20, 18, 16, 0.4);
+  background: rgba(0, 0, 0, 0.5);
 }
 
 /* ── Responsive ── */
@@ -824,11 +800,11 @@ button { cursor: pointer; border: none; background: none; color: inherit; font: 
     grid-template-columns: 1fr;
     grid-template-rows: repeat(4, 1fr);
   }
-  .header { padding: 0 16px; height: 52px; }
-  .header-wordmark { font-size: 18px; }
+  .header { padding: 0 16px; height: 50px; }
+  .header-wordmark { font-size: 16px; }
   .header-meta { display: none; }
   .saved-panel { width: 100%; }
   .modal { max-height: 95vh; }
-  .modal-body { padding: 20px; }
+  .modal-body { padding: 18px 20px 20px; }
   .modal-title { font-size: 22px; }
 }
