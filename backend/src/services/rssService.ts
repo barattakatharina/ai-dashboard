@@ -65,11 +65,19 @@ export const RSS_SOURCES: RssSource[] = [
 
   // Podcasts
   { url: 'https://lexfridman.com/feed/podcast/', source: 'Lex Fridman Podcast', type: 'podcast', category: 'podcasts' },
-  { url: 'https://changelog.com/practicalai/feed', source: 'Practical AI', type: 'podcast', category: 'podcasts' },
   { url: 'https://feeds.megaphone.fm/MLN2155636141', source: 'TWIML AI Podcast', type: 'podcast', category: 'podcasts' },
+  { url: 'https://changelog.com/practicalai/feed', source: 'Practical AI', type: 'podcast', category: 'podcasts' },
   { url: 'https://thegradientpub.substack.com/feed', source: 'The Gradient', type: 'podcast', category: 'podcasts' },
   { url: 'https://feeds.simplecast.com/dLRotFGk', source: 'Latent Space', type: 'podcast', category: 'podcasts' },
-  { url: 'https://darknetdiaries.com/feed.xml', source: 'Hard Fork (NYT)', type: 'podcast', category: 'podcasts' },
+  { url: 'https://feeds.megaphone.fm/nopriors', source: 'No Priors', type: 'podcast', category: 'podcasts' },
+  { url: 'https://feeds.megaphone.fm/RINTP3108857801', source: 'Cognitive Revolution', type: 'podcast', category: 'podcasts' },
+  { url: 'https://anchor.fm/s/1e4a0eac/podcast/rss', source: 'ML Street Talk', type: 'podcast', category: 'podcasts' },
+  { url: 'https://api.substack.com/feed/podcast/69345.rss', source: 'Dwarkesh Podcast', type: 'podcast', category: 'podcasts' },
+  { url: 'https://feeds.simplecast.com/6HKOhNgS', source: 'Hard Fork (NYT)', type: 'podcast', category: 'podcasts' },
+  { url: 'https://anchor.fm/s/f7cac464/podcast/rss', source: 'AI Daily Brief', type: 'podcast', category: 'podcasts' },
+  { url: 'https://aneyeonai.libsyn.com/rss', source: 'Eye on AI', type: 'podcast', category: 'podcasts' },
+  { url: 'https://feeds.zencastr.com/f/K0PWFnVG.rss', source: 'Future of Life Institute', type: 'podcast', category: 'podcasts' },
+  { url: 'https://feeds.megaphone.fm/nvidiaaipodcast', source: 'NVIDIA AI Podcast', type: 'podcast', category: 'podcasts' },
 ];
 
 const AI_KEYWORDS = [
