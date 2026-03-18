@@ -56,37 +56,50 @@ export const RSS_SOURCES: RssSource[] = [
   { url: 'https://www.deeplearning.ai/the-batch/feed/', source: 'The Batch (DeepLearning.AI)', type: 'newsletter', category: 'newsletters' },
   { url: 'https://lastweeklyai.substack.com/feed', source: 'Last Week in AI', type: 'newsletter', category: 'newsletters' },
 
-  // YouTube channels (no API key required)
-  { url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UC3f6M7j2hSDRiB83DqIw9GA', source: 'Matt Wolfe', type: 'video', category: 'videos' },
-  { url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UCSHZKyawb77ixDdsGog4iWA', source: 'Lex Fridman', type: 'video', category: 'videos' },
-  { url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UCbfYPyITQ-7l4upoX8nvctg', source: 'Two Minute Papers', type: 'video', category: 'videos' },
-  { url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UCZHmQk67mSJgfCCTn7xBfew', source: 'Yannic Kilcher', type: 'video', category: 'videos' },
-  { url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UCofNz3v5UKmSQF2HAXn6MOw', source: 'AI Explained', type: 'video', category: 'videos' },
+  // YouTube channels — filterAI ensures only AI-relevant videos are shown
+  { url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UC3f6M7j2hSDRiB83DqIw9GA', source: 'Matt Wolfe', type: 'video', category: 'videos', filterAI: true },
+  { url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UCSHZKyawb77ixDdsGog4iWA', source: 'Lex Fridman', type: 'video', category: 'videos', filterAI: true },
+  { url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UCbfYPyITQ-7l4upoX8nvctg', source: 'Two Minute Papers', type: 'video', category: 'videos', filterAI: true },
+  { url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UCZHmQk67mSJgfCCTn7xBfew', source: 'Yannic Kilcher', type: 'video', category: 'videos', filterAI: true },
+  { url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UCofNz3v5UKmSQF2HAXn6MOw', source: 'AI Explained', type: 'video', category: 'videos', filterAI: true },
 
-  // Podcasts
-  { url: 'https://lexfridman.com/feed/podcast/', source: 'Lex Fridman Podcast', type: 'podcast', category: 'podcasts' },
-  { url: 'https://feeds.megaphone.fm/MLN2155636141', source: 'TWIML AI Podcast', type: 'podcast', category: 'podcasts' },
-  { url: 'https://changelog.com/practicalai/feed', source: 'Practical AI', type: 'podcast', category: 'podcasts' },
-  { url: 'https://thegradientpub.substack.com/feed', source: 'The Gradient', type: 'podcast', category: 'podcasts' },
-  { url: 'https://feeds.simplecast.com/dLRotFGk', source: 'Latent Space', type: 'podcast', category: 'podcasts' },
-  { url: 'https://feeds.megaphone.fm/nopriors', source: 'No Priors', type: 'podcast', category: 'podcasts' },
-  { url: 'https://feeds.megaphone.fm/RINTP3108857801', source: 'Cognitive Revolution', type: 'podcast', category: 'podcasts' },
-  { url: 'https://anchor.fm/s/1e4a0eac/podcast/rss', source: 'ML Street Talk', type: 'podcast', category: 'podcasts' },
-  { url: 'https://api.substack.com/feed/podcast/69345.rss', source: 'Dwarkesh Podcast', type: 'podcast', category: 'podcasts' },
-  { url: 'https://feeds.simplecast.com/6HKOhNgS', source: 'Hard Fork (NYT)', type: 'podcast', category: 'podcasts' },
-  { url: 'https://anchor.fm/s/f7cac464/podcast/rss', source: 'AI Daily Brief', type: 'podcast', category: 'podcasts' },
-  { url: 'https://aneyeonai.libsyn.com/rss', source: 'Eye on AI', type: 'podcast', category: 'podcasts' },
-  { url: 'https://feeds.zencastr.com/f/K0PWFnVG.rss', source: 'Future of Life Institute', type: 'podcast', category: 'podcasts' },
-  { url: 'https://feeds.megaphone.fm/nvidiaaipodcast', source: 'NVIDIA AI Podcast', type: 'podcast', category: 'podcasts' },
+  // Podcasts — filterAI ensures only AI-relevant episodes are shown
+  { url: 'https://lexfridman.com/feed/podcast/', source: 'Lex Fridman Podcast', type: 'podcast', category: 'podcasts', filterAI: true },
+  { url: 'https://feeds.megaphone.fm/MLN2155636141', source: 'TWIML AI Podcast', type: 'podcast', category: 'podcasts', filterAI: true },
+  { url: 'https://changelog.com/practicalai/feed', source: 'Practical AI', type: 'podcast', category: 'podcasts', filterAI: true },
+  { url: 'https://thegradientpub.substack.com/feed', source: 'The Gradient', type: 'podcast', category: 'podcasts', filterAI: true },
+  { url: 'https://feeds.simplecast.com/dLRotFGk', source: 'Latent Space', type: 'podcast', category: 'podcasts', filterAI: true },
+  { url: 'https://feeds.megaphone.fm/nopriors', source: 'No Priors', type: 'podcast', category: 'podcasts', filterAI: true },
+  { url: 'https://feeds.megaphone.fm/RINTP3108857801', source: 'Cognitive Revolution', type: 'podcast', category: 'podcasts', filterAI: true },
+  { url: 'https://anchor.fm/s/1e4a0eac/podcast/rss', source: 'ML Street Talk', type: 'podcast', category: 'podcasts', filterAI: true },
+  { url: 'https://api.substack.com/feed/podcast/69345.rss', source: 'Dwarkesh Podcast', type: 'podcast', category: 'podcasts', filterAI: true },
+  { url: 'https://feeds.simplecast.com/6HKOhNgS', source: 'Hard Fork (NYT)', type: 'podcast', category: 'podcasts', filterAI: true },
+  { url: 'https://anchor.fm/s/f7cac464/podcast/rss', source: 'AI Daily Brief', type: 'podcast', category: 'podcasts', filterAI: true },
+  { url: 'https://aneyeonai.libsyn.com/rss', source: 'Eye on AI', type: 'podcast', category: 'podcasts', filterAI: true },
+  { url: 'https://feeds.zencastr.com/f/K0PWFnVG.rss', source: 'Future of Life Institute', type: 'podcast', category: 'podcasts', filterAI: true },
+  { url: 'https://feeds.megaphone.fm/nvidiaaipodcast', source: 'NVIDIA AI Podcast', type: 'podcast', category: 'podcasts', filterAI: true },
 ];
 
 const AI_KEYWORDS = [
-  'ai', 'artificial intelligence', 'machine learning', 'deep learning',
-  'neural network', 'llm', 'large language model', 'gpt', 'claude',
-  'gemini', 'openai', 'anthropic', 'mistral', 'llama', 'transformer',
-  'diffusion', 'generative', 'chatgpt', 'copilot', 'agent', 'rag',
-  'embeddings', 'fine-tun', 'inference', 'model', 'computer vision',
-  'natural language', 'nlp', 'robotics', 'automation', 'sora', 'midjourney',
+  // Core AI terms
+  'artificial intelligence', ' ai ', ' ai,', ' ai.', ' ai:', '(ai)',
+  'machine learning', 'deep learning', 'neural network', 'neural net',
+  // Models & companies
+  'llm', 'large language model', 'gpt', 'gpt-4', 'gpt-5', 'o1', 'o3',
+  'claude', 'gemini', 'openai', 'anthropic', 'deepmind', 'mistral',
+  'llama', 'grok', 'perplexity', 'hugging face', 'cohere', 'inflection',
+  // Techniques
+  'transformer', 'diffusion model', 'stable diffusion', 'generative',
+  'fine-tun', 'pre-train', 'reinforcement learning', 'rlhf', 'rag',
+  'retrieval augmented', 'embeddings', 'vector database', 'inference',
+  'computer vision', 'natural language', 'nlp', 'speech recognition',
+  // Products & tools
+  'chatgpt', 'copilot', 'midjourney', 'dall-e', 'sora', 'cursor',
+  'devin', 'replit', 'codeium', 'github copilot',
+  // Concepts
+  'agent', 'agentic', 'autonomous', 'alignment', 'safety', 'agi',
+  'superintelligence', 'foundation model', 'multimodal', 'robotics',
+  'automation', 'prompt', 'context window', 'hallucination', 'benchmark',
 ];
 
 function isAIRelated(text: string): boolean {
@@ -142,7 +155,7 @@ async function fetchFeed(source: RssSource): Promise<ContentItem[]> {
     const feed = await parser.parseURL(source.url);
     const items: ContentItem[] = [];
 
-    for (const item of feed.items.slice(0, 15)) {
+    for (const item of feed.items.slice(0, 25)) {
       if (!item.title || !item.link) continue;
 
       if (source.filterAI && !isAIRelated(item.title + ' ' + (item.contentSnippet || ''))) {
