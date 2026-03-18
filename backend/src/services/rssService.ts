@@ -14,6 +14,7 @@ type RssFeedItem = {
   enclosure?: { url?: string; type?: string };
   mediaContent?: { $?: { url?: string } };
   mediaThumbnail?: { $?: { url?: string } };
+  mediaGroup?: { 'media:thumbnail'?: { $?: { url?: string } }[]; 'media:description'?: string[] };
   itunesImage?: { $?: { href?: string } } | string;
   itunesDuration?: string;
   itunesSummary?: string;
@@ -29,6 +30,7 @@ const parser = new Parser<object, RssFeedItem>({
     item: [
       ['media:content', 'mediaContent', { keepArray: false }],
       ['media:thumbnail', 'mediaThumbnail', { keepArray: false }],
+      ['media:group', 'mediaGroup', { keepArray: false }],
       ['enclosure', 'enclosure', { keepArray: false }],
       ['itunes:image', 'itunesImage', { keepArray: false }],
       ['itunes:duration', 'itunesDuration'],
@@ -53,6 +55,13 @@ export const RSS_SOURCES: RssSource[] = [
   { url: 'https://magazine.sebastianraschka.com/feed', source: 'Ahead of AI', type: 'newsletter', category: 'newsletters' },
   { url: 'https://www.deeplearning.ai/the-batch/feed/', source: 'The Batch (DeepLearning.AI)', type: 'newsletter', category: 'newsletters' },
   { url: 'https://lastweeklyai.substack.com/feed', source: 'Last Week in AI', type: 'newsletter', category: 'newsletters' },
+
+  // YouTube channels (no API key required)
+  { url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UC3f6M7j2hSDRiB83DqIw9GA', source: 'Matt Wolfe', type: 'video', category: 'videos' },
+  { url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UCSHZKyawb77ixDdsGog4iWA', source: 'Lex Fridman', type: 'video', category: 'videos' },
+  { url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UCbfYPyITQ-7l4upoX8nvctg', source: 'Two Minute Papers', type: 'video', category: 'videos' },
+  { url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UCZHmQk67mSJgfCCTn7xBfew', source: 'Yannic Kilcher', type: 'video', category: 'videos' },
+  { url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UCofNz3v5UKmSQF2HAXn6MOw', source: 'AI Explained', type: 'video', category: 'videos' },
 
   // Podcasts
   { url: 'https://lexfridman.com/feed/podcast/', source: 'Lex Fridman Podcast', type: 'podcast', category: 'podcasts' },
@@ -90,13 +99,22 @@ function stripHtml(html: string): string {
     .trim();
 }
 
-function extractImage(item: RssFeedItem): string | undefined {
+function extractImage(item: RssFeedItem, url?: string): string | undefined {
+  // YouTube: derive thumbnail from watch URL
+  if (url) {
+    const ytMatch = url.match(/youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/);
+    if (ytMatch) return `https://i.ytimg.com/vi/${ytMatch[1]}/hqdefault.jpg`;
+  }
+
+  // media:group > media:thumbnail (YouTube Atom feeds)
+  const groupThumb = item.mediaGroup?.['media:thumbnail']?.[0]?.$?.url;
+  if (groupThumb) return groupThumb;
+
   if (item.mediaContent?.$?.url) return item.mediaContent.$.url;
   if (item.mediaThumbnail?.$?.url) return item.mediaThumbnail.$.url;
   if (item.enclosure?.url && item.enclosure.type?.startsWith('image')) return item.enclosure.url;
   if (typeof item.itunesImage === 'object' && item.itunesImage?.$?.href) return item.itunesImage.$.href;
 
-  // Try to extract first image from HTML content
   const html = item.content || '';
   const imgMatch = html.match(/<img[^>]+src=["']([^"']+)["']/i);
   if (imgMatch) return imgMatch[1];
@@ -105,7 +123,8 @@ function extractImage(item: RssFeedItem): string | undefined {
 }
 
 function getDescription(item: RssFeedItem): string {
-  const raw = item.itunesSummary || item.contentSnippet || item.content || '';
+  const ytDesc = item.mediaGroup?.['media:description']?.[0] || '';
+  const raw = item.itunesSummary || ytDesc || item.contentSnippet || item.content || '';
   const stripped = stripHtml(raw);
   return stripped.slice(0, 400) + (stripped.length > 400 ? '…' : '');
 }
@@ -133,7 +152,7 @@ async function fetchFeed(source: RssSource): Promise<ContentItem[]> {
         title: item.title.trim(),
         description: description || 'No description available.',
         url,
-        imageUrl: extractImage(item),
+        imageUrl: extractImage(item, url),
         source: source.source,
         author: item.creator || item.author,
         publishedAt: item.isoDate || item.pubDate || new Date().toISOString(),
