@@ -3,28 +3,15 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from './services/api.js';
 import { ContentItem, DashboardResponse, SavedItem } from './types/index.js';
 import { Header } from './components/Header.js';
-import { CategorySection } from './components/CategorySection.js';
+import { Quadrant } from './components/Quadrant.js';
 import { DetailModal } from './components/DetailModal.js';
 import { SavedPanel } from './components/SavedPanel.js';
 
-function timeUntil(iso: string): string {
-  const diff = new Date(iso).getTime() - Date.now();
-  if (diff <= 0) return 'now';
-  const hours = Math.floor(diff / 3600000);
-  const minutes = Math.floor((diff % 3600000) / 60000);
-  if (hours > 0) return `in ${hours}h ${minutes}m`;
-  return `in ${minutes}m`;
-}
-
-function timeAgo(iso: string): string {
-  const diff = Date.now() - new Date(iso).getTime();
-  const minutes = Math.floor(diff / 60000);
-  if (minutes < 1) return 'just now';
-  if (minutes < 60) return `${minutes} min ago`;
-  const hours = Math.floor(minutes / 60);
-  if (hours < 24) return `${hours}h ago`;
-  return `${Math.floor(hours / 24)}d ago`;
-}
+// Quadrant accent colors
+const Q1_COLOR = '#7C6FFF'; // AI News & Tools
+const Q2_COLOR = '#00C8F8'; // Articles & Analysis
+const Q3_COLOR = '#FF6B9D'; // Podcasts
+const Q4_COLOR = '#FF8F3E'; // YouTube
 
 export default function App() {
   const queryClient = useQueryClient();
@@ -39,7 +26,7 @@ export default function App() {
   } = useQuery<DashboardResponse>({
     queryKey: ['dashboard'],
     queryFn: api.getDashboard,
-    staleTime: 10 * 60 * 1000, // 10 minutes
+    staleTime: 10 * 60 * 1000,
     gcTime: 30 * 60 * 1000,
     retry: 2,
   });
@@ -72,14 +59,12 @@ export default function App() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['saved'] });
-      // Optimistically toggle saved state in dashboard
       queryClient.invalidateQueries({ queryKey: ['dashboard'] });
     },
   });
 
   const handleSave = useCallback((item: ContentItem) => {
     saveMutation.mutate(item);
-    // Update selected item if open
     if (selectedItem?.id === item.id) {
       setSelectedItem(prev => prev ? { ...prev, saved: !prev.saved } : null);
     }
@@ -115,6 +100,28 @@ export default function App() {
 
     return () => clearTimeout(timer);
   }, [dashboard?.nextRefresh, queryClient]);
+
+  // Helper: get items for a category by ID
+  function getCategoryItems(catId: string): ContentItem[] {
+    if (!annotatedDashboard) return [];
+    const cat = annotatedDashboard.categories.find(c => c.id === catId);
+    return cat?.items ?? [];
+  }
+
+  // Q1: top-stories + tools merged
+  const q1Items: ContentItem[] = [
+    ...getCategoryItems('top-stories'),
+    ...getCategoryItems('tools'),
+  ];
+
+  // Q2: newsletters
+  const q2Items: ContentItem[] = getCategoryItems('newsletters');
+
+  // Q3: podcasts
+  const q3Items: ContentItem[] = getCategoryItems('podcasts');
+
+  // Q4: videos
+  const q4Items: ContentItem[] = getCategoryItems('videos');
 
   if (isLoading) {
     return (
@@ -171,61 +178,43 @@ export default function App() {
         onToggleSaved={() => setSavedPanelOpen(o => !o)}
       />
 
-      <main className="main">
-        {annotatedDashboard && (
-          <>
-            {/* Stats bar */}
-            <div className="stats-bar">
-              <div className="stats-bar-item">
-                <span>📡</span>
-                <span className="stats-bar-value">{annotatedDashboard.activeSources.length} sources</span>
-                <span>active</span>
-              </div>
-              <div className="stats-bar-item">
-                <span>📊</span>
-                <span className="stats-bar-value">{annotatedDashboard.totalItems}</span>
-                <span>items today</span>
-              </div>
-              <div className="stats-bar-item">
-                <span>🕐</span>
-                <span>Updated</span>
-                <span className="stats-bar-value">{timeAgo(annotatedDashboard.lastRefreshed)}</span>
-              </div>
-              <div className="stats-bar-item">
-                <span>⏭</span>
-                <span>Next refresh</span>
-                <span className="stats-bar-value">{timeUntil(annotatedDashboard.nextRefresh)}</span>
-              </div>
-              {annotatedDashboard.isStale && (
-                <div className="stats-stale">⚠ Showing cached content — refresh in progress</div>
-              )}
-            </div>
+      <div className="app-grid">
+        {/* Q1: AI News & Tools */}
+        <Quadrant
+          label="AI News & Tools"
+          items={q1Items}
+          accentColor={Q1_COLOR}
+          onItemClick={handleItemClick}
+          onSave={handleSave}
+        />
 
-            {/* Category sections */}
-            {annotatedDashboard.categories.map(category => (
-              <CategorySection
-                key={category.id}
-                category={category}
-                onSave={handleSave}
-                onItemClick={handleItemClick}
-              />
-            ))}
+        {/* Q2: Articles & Analysis */}
+        <Quadrant
+          label="Articles & Analysis"
+          items={q2Items}
+          accentColor={Q2_COLOR}
+          onItemClick={handleItemClick}
+          onSave={handleSave}
+        />
 
-            {annotatedDashboard.categories.length === 0 && (
-              <div className="empty-state" style={{ minHeight: '50vh' }}>
-                <div className="empty-state-icon">🔍</div>
-                <div className="empty-state-title">No content loaded yet</div>
-                <div className="empty-state-text">
-                  Click Refresh to pull content from AI news sources, newsletters, podcasts, and more.
-                </div>
-                <button className="btn btn-primary" onClick={() => refreshMutation.mutate()}>
-                  ↻ Load Content
-                </button>
-              </div>
-            )}
-          </>
-        )}
-      </main>
+        {/* Q3: Podcasts */}
+        <Quadrant
+          label="Podcasts"
+          items={q3Items}
+          accentColor={Q3_COLOR}
+          onItemClick={handleItemClick}
+          onSave={handleSave}
+        />
+
+        {/* Q4: YouTube */}
+        <Quadrant
+          label="YouTube"
+          items={q4Items}
+          accentColor={Q4_COLOR}
+          onItemClick={handleItemClick}
+          onSave={handleSave}
+        />
+      </div>
 
       {/* Detail modal */}
       {selectedItem && (

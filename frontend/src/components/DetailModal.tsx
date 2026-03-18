@@ -55,7 +55,7 @@ export function DetailModal({ item, onClose, onSave }: DetailModalProps) {
         <div className="modal-body">
           <div className="modal-badges">
             <span className={`badge badge-type ${item.type}`}>{item.type}</span>
-            <span className="badge" style={{ background: 'var(--bg)', border: '1px solid var(--border-subtle)', color: 'var(--text-muted)' }}>
+            <span className="badge" style={{ background: 'var(--bg-panel)', border: '1px solid var(--border)', color: 'var(--text-muted)' }}>
               {item.source}
             </span>
             {item.score && (
@@ -93,9 +93,9 @@ export function DetailModal({ item, onClose, onSave }: DetailModalProps) {
             </a>
 
             <button
-              className={`btn btn-outline`}
+              className="btn btn-outline"
               onClick={() => onSave(item)}
-              style={item.saved ? { borderColor: 'var(--accent-orange)', color: 'var(--accent-orange)' } : {}}
+              style={item.saved ? { borderColor: 'var(--q4)', color: 'var(--q4)' } : {}}
             >
               {item.saved ? '🔖 Saved' : '🔖 Save for Later'}
             </button>
